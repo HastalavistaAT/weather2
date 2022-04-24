@@ -5,6 +5,7 @@ from datetime import datetime
 from paho.mqtt import client as mqtt_client
 
 import sched, time
+import threading
 
 broker = 'localhost'
 port = 1883
@@ -45,8 +46,6 @@ def connect_mqtt() -> mqtt_client:
     def on_connect(client, userdata, flags, rc):
         if rc == 0:
             print("Connected to MQTT Broker!")
-            last_update = datetime.now()
-            print("last_update =", last_update)
         else:
             print("Failed to connect, return code %d\n", rc)
 
@@ -78,24 +77,26 @@ def subscribe(client: mqtt_client):
             bedroom["temperature_C"] =  5/9 * (message['temperature_F']-32)
             bedroom["humidity"] =  message['humidity']
             bedroom["battery"] =  message['battery_ok']
-        print(last_update)
-        time_delta = (datetime.now() - last_update)
-        total_seconds = time_delta.total_seconds()
-        minutes = total_seconds/60
-        if (minutes >= 1):
-            last_update = datetime.now()
-            print(garden)
-            print(greenhouse)
-            print(attic)
-            print(bedroom)
+
 
     client.subscribe(topic)
     client.on_message = on_message
+
+def display_update_checker(name):
+    while True:
+        time.sleep(10) # delay for 1 minute (60 seconds)
+        last_update = datetime.now()
+        print(garden)
+        print(greenhouse)
+        print(attic)
+        print(bedroom)
 
 
 def run():
     client = connect_mqtt()
     subscribe(client)
+    x = threading.Thread(target=display_update_checker, args=(1,), daemon=True)
+    x.start()
     client.loop_forever()
 
 
