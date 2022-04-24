@@ -132,7 +132,7 @@ def draw_display():
         drawred.rectangle((201, 0, 264, 176), fill = 0)
 
         # first row first column
-        drawred.text((50, 23), f"{garden['temperature_C']}°", font = fontbold34, align='center', fill = 0, anchor="mm")
+        drawred.text((50, 23), f"{str(round(garden['temperature_C'], 1))}°", font = fontbold34, align='center', fill = 0, anchor="mm")
         drawblack.text((75, 55), f"{garden['humidity']}%", font = font24, align='center', fill = 0, anchor="mm")
         # drawblack.text((50, 78), "Garten", font = font18, align='center', fill = 0, anchor="mm")
         
@@ -142,23 +142,23 @@ def draw_display():
         # drawblack.text((150, 78), "Wohnraum", font = font18, align='center', fill = 0, anchor="mm")
 
         # second row first column
-        drawred.text((33, 104), '-10.8°', font = fontbold24, align='center', fill = 0, anchor="mm")
-        drawblack.text((52, 130), '99%', font = font14, align='center', fill = 0, anchor="mm")   
+        drawred.text((33, 104), f"{str(round(greenhouse['temperature_C'], 1))}°", font = fontbold24, align='center', fill = 0, anchor="mm")
+        drawblack.text((52, 130), f"{greenhouse['humidity']}%", font = font14, align='center', fill = 0, anchor="mm")   
         # drawblack.text((33, 148), "Gewächsh.", font = font12, align='center', fill = 0, anchor="mm")
 
         # second row second column
-        drawblack.text((100, 104), '35.7°', font = fontbold24, align='center', fill = 0, anchor="mm")
-        drawblack.text((118, 130), '54%', font = font14, align='center', fill = 0, anchor="mm")   
+        drawblack.text((100, 104), f"{str(round(attic['temperature_C'], 1))}°", font = fontbold24, align='center', fill = 0, anchor="mm")
+        drawblack.text((118, 130), f"{attic['humidity']}%", font = font14, align='center', fill = 0, anchor="mm")   
         # drawblack.text((100, 148), "Dachboden", font = font12, align='center', fill = 0, anchor="mm")
         
         # second row third column
-        drawblack.text((166, 104), '19.7°', font = fontbold24, align='center', fill = 0, anchor="mm")
-        drawblack.text((182, 130), '58%', font = font14, align='center', fill = 0, anchor="mm")   
+        drawblack.text((166, 104), f"{str(round(bedroom['temperature_C'], 1))}°", font = fontbold24, align='center', fill = 0, anchor="mm")
+        drawblack.text((182, 130), f"{bedroom['humidity']}%", font = font14, align='center', fill = 0, anchor="mm")   
         # drawblack.text((166, 148), "Schlafz.", font = font12, align='center', fill = 0, anchor="mm")
 
         # bottom line
         drawblack.text((42, 166), "05:58", font = fontbold16, align='center', fill = 0, anchor="mm")
-        drawblack.text((100, 166), "18:12", font = fontbold16, align='center', fill = 0, anchor="mm")
+        drawblack.text((100, 166), time.strftime('%H:%M'), font = fontbold16, align='center', fill = 0, anchor="mm")
         drawblack.text((176, 166), "20:05", font = fontbold16, align='center', fill = 0, anchor="mm")
 
         epd.display(epd.getbuffer(HBlackimage), epd.getbuffer(HRedimage))
