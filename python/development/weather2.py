@@ -18,6 +18,7 @@ from paho.mqtt import client as mqtt_client
 import sched, time
 import threading
 
+# settings
 broker = 'localhost'
 port = 1883
 topic = "home/rtl_433"
@@ -25,7 +26,9 @@ topic = "home/rtl_433"
 client_id = f'python-mqtt-{random.randint(0, 100)}'
 # username = 'emqx'
 # password = 'public'
-last_update = datetime.now()
+
+# time in seconds between display refresh
+display_refresh = 60
 
 garden = {
   "channel": 1,
@@ -47,6 +50,12 @@ attic = {
 }
 bedroom = {
   "channel": 7,
+  "temperature_C": 0.0,
+  "humidity": 0,
+  "battery": 0,
+}
+indoor = {
+  "channel": 0,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
@@ -106,16 +115,16 @@ def subscribe(client: mqtt_client):
 
 def display_update_checker(name):
     while True:
-        time.sleep(10) # delay for 1 minute (60 seconds)
         draw_display()
+        time.sleep(display_refresh)
         
 def draw_display():
     try:
-        print("Initialize Display")
+        logging.info("Initialize Display")
         epd = epd2in7b.EPD()
         epd.init()
         
-        print("Draw display")
+        logging.info("Draw display")
         
         HBlackimage = Image.open(os.path.join(picdir, 'result_black.bmp'))
         HRedimage = Image.open(os.path.join(picdir, 'result_red.bmp'))
@@ -129,20 +138,26 @@ def draw_display():
         drawblack.line((0, 88, 200, 88), fill = 0)
         drawblack.line((0, 156, 200, 156), fill = 0)
         
-        drawred.rectangle((201, 0, 264, 176), fill = 0)
+        # drawred.rectangle((201, 0, 264, 176), fill = 0)
 
         # first row first column
-        drawred.text((50, 23), f"{str(round(garden['temperature_C'], 1))}°", font = fontbold34, align='center', fill = 0, anchor="mm")
+        if (garden['temperature_C'] > 0 and garden['temperature_C'] < 30):
+            drawblack.text((50, 23), f"{str(round(garden['temperature_C'], 1))}°", font = fontbold34, align='center', fill = 0, anchor="mm")
+        else:
+            drawred.text((50, 23), f"{str(round(garden['temperature_C'], 1))}°", font = fontbold34, align='center', fill = 0, anchor="mm")
         drawblack.text((75, 55), f"{garden['humidity']}%", font = font24, align='center', fill = 0, anchor="mm")
         # drawblack.text((50, 78), "Garten", font = font18, align='center', fill = 0, anchor="mm")
         
         # first row second column
-        drawblack.text((150, 23), '22.7°', font = fontbold34, align='center', fill = 0, anchor="mm")
-        drawblack.text((175, 55), '42%', font = font24, align='center', fill = 0, anchor="mm")   
+        drawblack.text((150, 23), f"{str(round(indoor['temperature_C'], 1))}°", font = fontbold34, align='center', fill = 0, anchor="mm")
+        drawblack.text((175, 55), f"{indoor['humidity']}%", font = font24, align='center', fill = 0, anchor="mm")   
         # drawblack.text((150, 78), "Wohnraum", font = font18, align='center', fill = 0, anchor="mm")
 
         # second row first column
-        drawred.text((33, 104), f"{str(round(greenhouse['temperature_C'], 1))}°", font = fontbold24, align='center', fill = 0, anchor="mm")
+        if (greenhouse['temperature_C'] > 10 and greenhouse['temperature_C'] < 30):
+            drawblack.text((33, 104), f"{str(round(greenhouse['temperature_C'], 1))}°", font = fontbold24, align='center', fill = 0, anchor="mm")
+        else:
+            drawred.text((33, 104), f"{str(round(greenhouse['temperature_C'], 1))}°", font = fontbold24, align='center', fill = 0, anchor="mm")
         drawblack.text((52, 130), f"{greenhouse['humidity']}%", font = font14, align='center', fill = 0, anchor="mm")   
         # drawblack.text((33, 148), "Gewächsh.", font = font12, align='center', fill = 0, anchor="mm")
 
