@@ -48,14 +48,14 @@ attic = {
   "humidity": 0,
   "battery": 0,
 }
-bedroom = {
-  "channel": 7,
+indoor = {
+  "channel": 4,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
 }
-indoor = {
-  "channel": 0,
+bedroom = {
+  "channel": 7,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
@@ -104,6 +104,10 @@ def subscribe(client: mqtt_client):
             attic["temperature_C"] =  5/9 * (message['temperature_F']-32)
             attic["humidity"] =  message['humidity']
             attic["battery"] =  message['battery_ok']
+        elif (channel == 4): 
+            indoor["temperature_C"] =  5/9 * (message['temperature_F']-32)
+            indoor["humidity"] =  message['humidity']
+            indoor["battery"] =  message['battery_ok']
         elif (channel == 7):  
             bedroom["temperature_C"] =  5/9 * (message['temperature_F']-32)
             bedroom["humidity"] =  message['humidity']
