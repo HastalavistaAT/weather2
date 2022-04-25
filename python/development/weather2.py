@@ -31,7 +31,7 @@ client_id = f'python-mqtt-{random.randint(0, 100)}'
 display_refresh = 60
 
 # time in seconds when data is considered exprired
-expire_after_seconds = 120
+expire_after_seconds = 240
 
 garden = {
   "channel": 1,
