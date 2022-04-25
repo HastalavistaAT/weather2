@@ -134,6 +134,8 @@ def display_update_checker(name):
         
 def draw_display():
     try:
+        current_time = datetime.now
+        
         logging.info("Initialize Display")
         epd = epd2in7b.EPD()
         epd.init()
@@ -160,7 +162,7 @@ def draw_display():
         else:
             drawred.text((50, 23), f"{str(round(garden['temperature_C'], 1))}°", font = fontbold34, align='center', fill = 0, anchor="mm")
         drawblack.text((75, 55), f"{garden['humidity']}%", font = font24, align='center', fill = 0, anchor="mm")
-        time_delta = datetime.now - garden['last_update']
+        time_delta = current_time - garden['last_update']
         total_seconds = time_delta.total_seconds()
         if (total_seconds > 120):
             drawred.rectangle((0, 0, 99, 87), fill = 0)
