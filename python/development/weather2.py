@@ -138,7 +138,7 @@ def draw_display():
         drawblack.line((0, 88, 200, 88), fill = 0)
         drawblack.line((0, 156, 200, 156), fill = 0)
         
-        # drawred.rectangle((201, 0, 264, 176), fill = 0)
+        drawred.rectangle((201, 0, 264, 176), fill = 0)
 
         # first row first column
         if (garden['temperature_C'] > 0 and garden['temperature_C'] < 30):
