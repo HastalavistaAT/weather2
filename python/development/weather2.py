@@ -30,40 +30,43 @@ client_id = f'python-mqtt-{random.randint(0, 100)}'
 # time in seconds between display refresh
 display_refresh = 60
 
+# time in seconds when data is considered exprired
+expire_after_seconds = 120
+
 garden = {
   "channel": 1,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
-  "last_update": datetime.now(),
+  "last_update": None,
 }
 greenhouse = {
   "channel": 2,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
-  "last_update": datetime.now(),
+  "last_update": None,
 }
 attic = {
   "channel": 3,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
-  "last_update": datetime.now(),
+  "last_update": None,
 }
 indoor = {
   "channel": 4,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
-  "last_update": datetime.now(),
+  "last_update": None,
 }
 bedroom = {
   "channel": 7,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
-  "last_update": datetime.now(),
+  "last_update": None,
 }
 
 # settings for display
@@ -162,10 +165,14 @@ def draw_display():
         else:
             drawred.text((50, 23), f"{str(round(garden['temperature_C'], 1))}°", font = fontbold34, align='center', fill = 0, anchor="mm")
         drawblack.text((75, 55), f"{garden['humidity']}%", font = font24, align='center', fill = 0, anchor="mm")
-        time_delta = current_time - garden['last_update']
-        total_seconds = time_delta.total_seconds()
-        if (total_seconds > 120):
+        
+        # check if data is up2date
+        if (garden["last_update"] != None):
+            if ((current_time - garden['last_update']).total_seconds() > expire_after_seconds):
+                drawred.rectangle((0, 0, 99, 87), fill = 0)
+        else:
             drawred.rectangle((0, 0, 99, 87), fill = 0)
+
         # drawblack.text((50, 78), "Garten", font = font18, align='center', fill = 0, anchor="mm")
         
         # first row second column
