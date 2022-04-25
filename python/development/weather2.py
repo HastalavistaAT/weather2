@@ -180,6 +180,13 @@ def draw_display():
         drawblack.text((175, 55), f"{indoor['humidity']}%", font = font24, align='center', fill = 0, anchor="mm")   
         # drawblack.text((150, 78), "Wohnraum", font = font18, align='center', fill = 0, anchor="mm")
 
+        # check if data is up2date
+        if (indoor["last_update"] != None):
+            if ((current_time - indoor['last_update']).total_seconds() > expire_after_seconds):
+                drawred.rectangle((101, 0, 199, 87), fill = 0)
+        else:
+            drawred.rectangle((101, 0, 199, 87), fill = 0)
+
         # second row first column
         if (greenhouse['temperature_C'] > 10 and greenhouse['temperature_C'] < 30):
             drawblack.text((33, 104), f"{str(round(greenhouse['temperature_C'], 1))}°", font = fontbold24, align='center', fill = 0, anchor="mm")
@@ -188,15 +195,36 @@ def draw_display():
         drawblack.text((52, 130), f"{greenhouse['humidity']}%", font = font14, align='center', fill = 0, anchor="mm")   
         # drawblack.text((33, 148), "Gewächsh.", font = font12, align='center', fill = 0, anchor="mm")
 
+        # check if data is up2date
+        if (greenhouse["last_update"] != None):
+            if ((current_time - greenhouse['last_update']).total_seconds() > expire_after_seconds):
+                drawred.rectangle((0, 89, 66, 155), fill = 0)
+        else:
+            drawred.rectangle((0, 89, 66, 155), fill = 0)
+
         # second row second column
         drawblack.text((100, 104), f"{str(round(attic['temperature_C'], 1))}°", font = fontbold24, align='center', fill = 0, anchor="mm")
         drawblack.text((118, 130), f"{attic['humidity']}%", font = font14, align='center', fill = 0, anchor="mm")   
         # drawblack.text((100, 148), "Dachboden", font = font12, align='center', fill = 0, anchor="mm")
         
+        # check if data is up2date
+        if (attic["last_update"] != None):
+            if ((current_time - attic['last_update']).total_seconds() > expire_after_seconds):
+                drawred.rectangle((68, 89, 132, 155), fill = 0)
+        else:
+            drawred.rectangle((68, 89, 132, 155), fill = 0)
+
         # second row third column
         drawblack.text((166, 104), f"{str(round(bedroom['temperature_C'], 1))}°", font = fontbold24, align='center', fill = 0, anchor="mm")
         drawblack.text((182, 130), f"{bedroom['humidity']}%", font = font14, align='center', fill = 0, anchor="mm")   
         # drawblack.text((166, 148), "Schlafz.", font = font12, align='center', fill = 0, anchor="mm")
+
+        # check if data is up2date
+        if (bedroom["last_update"] != None):
+            if ((current_time - bedroom['last_update']).total_seconds() > expire_after_seconds):
+                drawred.rectangle((134, 89, 199, 155), fill = 0)
+        else:
+            drawred.rectangle((134, 89, 199, 155), fill = 0)
 
         # bottom line
         drawblack.text((42, 166), "05:58", font = fontbold16, align='center', fill = 0, anchor="mm")
