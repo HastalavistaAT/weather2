@@ -51,6 +51,12 @@ bedroom = {
   "humidity": 0,
   "battery": 0,
 }
+inside = {
+  "channel": 0,
+  "temperature_C": 0.0,
+  "humidity": 0,
+  "battery": 0,
+}
 
 # settings for display
 fontbold34 = ImageFont.truetype(os.path.join(picdir, 'ARLRDBD.TTF'), 34)
