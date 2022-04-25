@@ -35,35 +35,35 @@ garden = {
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
-  "last_update": time.localtime,
+  "last_update": datetime.now,
 }
 greenhouse = {
   "channel": 2,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
-  "last_update": time.localtime,
+  "last_update": datetime.now,
 }
 attic = {
   "channel": 3,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
-  "last_update": time.localtime,
+  "last_update": datetime.now,
 }
 indoor = {
   "channel": 4,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
-  "last_update": time.localtime,
+  "last_update": datetime.now,
 }
 bedroom = {
   "channel": 7,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
-  "last_update": time.localtime,
+  "last_update": datetime.now,
 }
 
 # settings for display
@@ -160,7 +160,7 @@ def draw_display():
         else:
             drawred.text((50, 23), f"{str(round(garden['temperature_C'], 1))}°", font = fontbold34, align='center', fill = 0, anchor="mm")
         drawblack.text((75, 55), f"{garden['humidity']}%", font = font24, align='center', fill = 0, anchor="mm")
-        time_delta = (time.localtime - garden['last_update'])
+        time_delta = (datetime.now - garden['last_update'])
         total_seconds = time_delta.total_seconds()
         if (total_seconds > 120):
             drawred.rectangle((0, 0, 99, 87), fill = 0)
