@@ -35,35 +35,35 @@ garden = {
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
-  "last_update": datetime.now,
+  "last_update": datetime.now(),
 }
 greenhouse = {
   "channel": 2,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
-  "last_update": datetime.now,
+  "last_update": datetime.now(),
 }
 attic = {
   "channel": 3,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
-  "last_update": datetime.now,
+  "last_update": datetime.now(),
 }
 indoor = {
   "channel": 4,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
-  "last_update": datetime.now,
+  "last_update": datetime.now(),
 }
 bedroom = {
   "channel": 7,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
-  "last_update": datetime.now,
+  "last_update": datetime.now(),
 }
 
 # settings for display
@@ -134,7 +134,7 @@ def display_update_checker(name):
         
 def draw_display():
     try:
-        current_time = datetime.now
+        current_time = datetime.now()
         
         logging.info("Initialize Display")
         epd = epd2in7b.EPD()
