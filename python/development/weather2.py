@@ -35,30 +35,35 @@ garden = {
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
+  "last_update": time.localtime,
 }
 greenhouse = {
   "channel": 2,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
+  "last_update": time.localtime,
 }
 attic = {
   "channel": 3,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
+  "last_update": time.localtime,
 }
 indoor = {
   "channel": 4,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
+  "last_update": time.localtime,
 }
 bedroom = {
   "channel": 7,
   "temperature_C": 0.0,
   "humidity": 0,
   "battery": 0,
+  "last_update": time.localtime,
 }
 
 # settings for display
@@ -96,22 +101,27 @@ def subscribe(client: mqtt_client):
             garden["temperature_C"] =  5/9 * (message['temperature_F']-32)
             garden["humidity"] =  message['humidity']
             garden["battery"] =  message['battery_ok']
+            garden["last_update"] = time.localtime
         elif (channel == 2): 
             greenhouse["temperature_C"] =  5/9 * (message['temperature_F']-32)
             greenhouse["humidity"] =  message['humidity']
             greenhouse["battery"] =  message['battery_ok']
+            greenhouse["last_update"] = time.localtime
         elif (channel == 3): 
             attic["temperature_C"] =  5/9 * (message['temperature_F']-32)
             attic["humidity"] =  message['humidity']
             attic["battery"] =  message['battery_ok']
+            attic["last_update"] = time.localtime
         elif (channel == 4): 
             indoor["temperature_C"] =  5/9 * (message['temperature_F']-32)
             indoor["humidity"] =  message['humidity']
             indoor["battery"] =  message['battery_ok']
+            indoor["last_update"] = time.localtime
         elif (channel == 7):  
             bedroom["temperature_C"] =  5/9 * (message['temperature_F']-32)
             bedroom["humidity"] =  message['humidity']
             bedroom["battery"] =  message['battery_ok']
+            bedroom["last_update"] = time.localtime
 
 
     client.subscribe(topic)
@@ -142,7 +152,7 @@ def draw_display():
         drawblack.line((0, 88, 200, 88), fill = 0)
         drawblack.line((0, 156, 200, 156), fill = 0)
         
-        drawred.rectangle((201, 0, 264, 176), fill = 0)
+        # drawred.rectangle((201, 0, 264, 176), fill = 0)
 
         # first row first column
         if (garden['temperature_C'] > 0 and garden['temperature_C'] < 30):
@@ -150,6 +160,10 @@ def draw_display():
         else:
             drawred.text((50, 23), f"{str(round(garden['temperature_C'], 1))}°", font = fontbold34, align='center', fill = 0, anchor="mm")
         drawblack.text((75, 55), f"{garden['humidity']}%", font = font24, align='center', fill = 0, anchor="mm")
+        time_delta = (time.localtime - garden['last_update'])
+        total_seconds = time_delta.total_seconds()
+        if (total_seconds > 120):
+            drawred.rectangle((0, 0, 99, 87), fill = 0)
         # drawblack.text((50, 78), "Garten", font = font18, align='center', fill = 0, anchor="mm")
         
         # first row second column
