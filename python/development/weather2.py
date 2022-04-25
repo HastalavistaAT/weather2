@@ -101,27 +101,27 @@ def subscribe(client: mqtt_client):
             garden["temperature_C"] =  5/9 * (message['temperature_F']-32)
             garden["humidity"] =  message['humidity']
             garden["battery"] =  message['battery_ok']
-            garden["last_update"] = time.localtime
+            garden["last_update"] = datetime.now()
         elif (channel == 2): 
             greenhouse["temperature_C"] =  5/9 * (message['temperature_F']-32)
             greenhouse["humidity"] =  message['humidity']
             greenhouse["battery"] =  message['battery_ok']
-            greenhouse["last_update"] = time.localtime
+            greenhouse["last_update"] = datetime.now()
         elif (channel == 3): 
             attic["temperature_C"] =  5/9 * (message['temperature_F']-32)
             attic["humidity"] =  message['humidity']
             attic["battery"] =  message['battery_ok']
-            attic["last_update"] = time.localtime
+            attic["last_update"] = datetime.now()
         elif (channel == 4): 
             indoor["temperature_C"] =  5/9 * (message['temperature_F']-32)
             indoor["humidity"] =  message['humidity']
             indoor["battery"] =  message['battery_ok']
-            indoor["last_update"] = time.localtime
+            indoor["last_update"] = datetime.now()
         elif (channel == 7):  
             bedroom["temperature_C"] =  5/9 * (message['temperature_F']-32)
             bedroom["humidity"] =  message['humidity']
             bedroom["battery"] =  message['battery_ok']
-            bedroom["last_update"] = time.localtime
+            bedroom["last_update"] = datetime.now()
 
 
     client.subscribe(topic)
