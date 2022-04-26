@@ -244,8 +244,6 @@ def draw_display():
         epd2in7b.epdconfig.module_exit()
         exit()
 
-
-
 def run():
     client = connect_mqtt()
     subscribe(client)
