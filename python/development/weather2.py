@@ -248,7 +248,7 @@ def draw_display():
 def run():
     client = connect_mqtt()
     subscribe(client)
-    x = threading.Thread(target=display_update_checker, args=(1,), daemon=True)
+    x = threading.Thread(target=display_update_checker, args=(0,), daemon=True)
     x.start()
     client.loop_forever()
 
