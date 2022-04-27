@@ -140,12 +140,13 @@ def connect_mqtt() -> mqtt_client:
     client.connect(broker, port)
     return client
 
-def publish(client, channel, message):
+def publish(message):
+    global client
     def on_publish(client,userdata,result):             #create function for callback
         print("data published \n")
         pass
     client.on_publish = on_publish                          #assign function to callback
-    ret= client.publish(topic,message)                   #publish
+    client.publish(topic,message)                   #publish
 
 
 UNKNOWN = 0
@@ -182,16 +183,17 @@ def loop(client):
             if not state == UP:
                 state = UP
                 switchrelay(20)
-                publish(client, topic, "up")
+                publish("up")
         else:
             if not state == DOWN:
                 state = DOWN
                 switchrelay(21)
-                publish(client, topic, "down")
+                publish("down")
         time.sleep(60)
 
 
 def run():
+    global client
     client = connect_mqtt()
     loop(client)
     
