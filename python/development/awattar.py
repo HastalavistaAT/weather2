@@ -39,6 +39,8 @@ def publish(message):
     client.publish(topic,message)                   #publish
 
 def load_prices():
+    global prices
+    prices.clear()
     presentDate = datetime.datetime.now()
     enddate = presentDate + datetime.timedelta(days=2)
     unix_timestamp = datetime.datetime.timestamp(enddate)*1000
@@ -46,16 +48,21 @@ def load_prices():
     message = response.text
     # print (message)
     data = json.loads(message, object_hook=lambda d: SimpleNamespace(**d))
-    print (data.data[0])
-    testtimestamp = data.data[0].start_timestamp/1000
-    print (testtimestamp)
-    print(datetime.datetime.fromtimestamp(testtimestamp).strftime('%Y-%m-%d %H:%M:%S'))
-
+    int i = 0
     for val in data.data:
         start = datetime.datetime.fromtimestamp(val.start_timestamp/1000)
         end = datetime.datetime.fromtimestamp(val.end_timestamp/1000)
         price = val.marketprice
-        print (start.strftime('%Y-%m-%d %H:%M:%S'), end.strftime('%Y-%m-%d %H:%M:%S'), price)
+        prices.update({start:price})
+        # print (start.strftime('%Y-%m-%d %H:%M:%S'), end.strftime('%Y-%m-%d %H:%M:%S'), price)
+    get_current_price()
+
+def get_current_price():
+    global prices
+    presentDate = datetime.datetime.now()
+    for key, value in prices:
+        if key < presentDate:
+            return value
 
 def loop():
     while True:
