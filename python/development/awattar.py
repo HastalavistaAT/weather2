@@ -78,7 +78,10 @@ def get_current_price(): #in cent/kwh
 
 def get_lowest_price():
     lowest_prices = sorted(prices.items(), key=lambda x: x[1])
-    return next(iter(lowest_prices))
+    if lowest_prices is not None:
+        return next(iter(lowest_prices))
+    else:
+        return None
 
 
 def loop():
