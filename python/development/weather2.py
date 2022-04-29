@@ -113,7 +113,7 @@ def subscribe(client: mqtt_client):
         #print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
         if msg.topic == currnet_price_topic:
             current_price = msg.payload.decode()
-        if msg.topic == currnet_price_topic:
+        if msg.topic == lowest_price_topic:
             message = json.loads(msg.payload.decode())
             print(message[0], message[1])
             lowest_price.update({message[0]:message[1]})
