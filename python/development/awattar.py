@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import datetime
-from paho.mqtt import client as mqtt_client
+#from paho.mqtt import client as mqtt_client
 import time
 import json
 from types import SimpleNamespace
@@ -9,6 +9,8 @@ import requests
 import random
 
 # settings
+update_frequency = 3600 # seconds
+
 broker = 'localhost'
 port = 1883
 # generate client ID with pub prefix randomly
@@ -16,36 +18,36 @@ client_id = f'python-mqtt-{random.randint(0, 100)}'
 # username = 'emqx'
 # password = 'public'
 
-def connect_mqtt() -> mqtt_client:
-    def on_connect(client, userdata, flags, rc):
-        if rc == 0:
-            print("Connected to MQTT Broker!")
-        else:
-            print("Failed to connect, return code %d\n", rc)
+#def connect_mqtt() -> mqtt_client:
+#    def on_connect(client, userdata, flags, rc):
+#        if rc == 0:
+#            print("Connected to MQTT Broker!")
+#        else:
+#            print("Failed to connect, return code %d\n", rc)
+#
+#    client = mqtt_client.Client(client_id)
+#    #client.username_pw_set(username, password)
+#    client.on_connect = on_connect
+#    client.connect(broker, port)
+#    return client
 
-    client = mqtt_client.Client(client_id)
-    #client.username_pw_set(username, password)
-    client.on_connect = on_connect
-    client.connect(broker, port)
-    return client
-
-def publish(message, topic):
-    global client
-    def on_publish(client,userdata,result):             #create function for callback
-        print("data published \n")
-        pass
-    client.on_publish = on_publish                          #assign function to callback
-    client.publish(topic,message)                   #publish
+#def publish(message, topic):
+#    global client
+#    def on_publish(client,userdata,result):             #create function for callback
+#        print("data published \n")
+#        pass
+#    client.on_publish = on_publish                          #assign function to callback
+#    client.publish(topic,message)                   #publish
 
 def load_prices():
     global prices
     global last_update
     presentDate = datetime.datetime.now()
     if last_update:
-        print (last_update.strftime('%Y-%m-%d %H:%M:%S'))
+        #print (last_update.strftime('%Y-%m-%d %H:%M:%S'))
         timediff = presentDate-last_update
-        print (timediff)
-        if timediff.total_seconds() > 3600:
+        # print (timediff)
+        if timediff.total_seconds() >= update_frequency:
             enddate = presentDate + datetime.timedelta(days=2)
             unix_timestamp = datetime.datetime.timestamp(enddate)*1000
             response = requests.get("https://api.awattar.at/v1/marketdata?end="+str(unix_timestamp))
@@ -60,7 +62,7 @@ def load_prices():
                 price = val.marketprice/10
                 prices.update({start:price})
             last_update = datetime.datetime.now()
-            print("updated data")
+            print(last_update.strftime('%Y-%m-%d %H:%M:%S'), " loaded new data from awattar")
             
     # print(get_current_price())
 
@@ -81,7 +83,7 @@ def loop():
         load_prices()
         #publish(get_current_price(), "home/awattar/current_price")
         #publish(json.dumps(get_lowest_price()), "home/awattar/lowest_price")
-        time.sleep(60)
+        time.sleep(1)
 
 def run():
     global client
