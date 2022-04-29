@@ -46,7 +46,7 @@ def load_prices():
     print (data.data[0])
     testtimestamp = data.data[0].start_timestamp/1000
     print (testtimestamp)
-    print(datetime.datetime.utcfromtimestamp(testtimestamp).strftime('%Y-%m-%d %H:%M:%S'))
+    print(datetime.datetime.fromtimestamp(testtimestamp).strftime('%Y-%m-%d %H:%M:%S'))
     
 def loop():
     while True:
