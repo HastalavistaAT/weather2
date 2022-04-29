@@ -39,7 +39,7 @@ def publish(message):
 
 def load_prices():
     response = requests.get("https://api.awattar.at/v1/marketdata")
-    message = response.json()
+    message = response.text()
     print (message)
     data = json.loads(str(message), object_hook=lambda d: SimpleNamespace(**d))
     print (data)
