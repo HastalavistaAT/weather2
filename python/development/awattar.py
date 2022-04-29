@@ -41,10 +41,11 @@ def load_prices():
     response = requests.get("https://api.awattar.at/v1/marketdata")
     message = response.json()
     # print(message)
-    data = json.loads(message, object_hook=lambda d: SimpleNamespace(**d))
-    print (data)
-    print (data.url)
-    print (data.object)
+    # data = json.loads(message, object_hook=lambda d: SimpleNamespace(**d))
+    print (message)
+    print (message.url)
+    print (message.object)
+    print (message.data)
     
 def loop():
     while True:
