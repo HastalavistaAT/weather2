@@ -40,7 +40,8 @@ def publish(message):
 
 def load_prices():
     global prices
-    prices.clear()
+    if prices in globals():
+        prices.clear()
     presentDate = datetime.datetime.now()
     enddate = presentDate + datetime.timedelta(days=2)
     unix_timestamp = datetime.datetime.timestamp(enddate)*1000
