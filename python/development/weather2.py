@@ -237,7 +237,7 @@ def draw_display():
 
         # right area
         drawblack.text((232, 15), f"{str(round(current_price, 1))}", font = fontbold24, align='center', fill = 0, anchor="mm")
-        drawblack.text((232, 31), f"ct/kWh", font = font16, align='center', fill = 0, anchor="mm")
+        drawblack.text((232, 32), f"ct/kWh", font = font14, align='center', fill = 0, anchor="mm")
 
         # bottom line
         drawblack.text((42, 166), "05:58", font = fontbold16, align='center', fill = 0, anchor="mm")
