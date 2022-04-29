@@ -106,6 +106,7 @@ def convert_F_to_C(fahrenheit):
 
 def subscribe(client: mqtt_client):
     def on_message(client, userdata, msg):
+        global current_price
         #print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
         if msg.topic == currnet_price_topic:
             current_price = msg.payload.decode()
