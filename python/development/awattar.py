@@ -40,7 +40,7 @@ def publish(message):
 
 def load_prices():
     global prices
-    if prices in globals():
+    if prices != None:
         prices.clear()
     presentDate = datetime.datetime.now()
     enddate = presentDate + datetime.timedelta(days=2)
@@ -59,10 +59,13 @@ def load_prices():
 
 def get_current_price():
     global prices
-    presentDate = datetime.datetime.now()
-    for key, value in prices:
-        if key < presentDate:
-            return value
+    if prices != None:
+        presentDate = datetime.datetime.now()
+        for key, value in prices:
+            if key < presentDate:
+                return value
+    else:
+        return None
 
 def loop():
     while True:
