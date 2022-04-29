@@ -11,7 +11,6 @@ import random
 # settings
 broker = 'localhost'
 port = 1883
-topic = "home/awattar"
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 100)}'
 # username = 'emqx'
@@ -30,7 +29,7 @@ def connect_mqtt() -> mqtt_client:
     client.connect(broker, port)
     return client
 
-def publish(message):
+def publish(message, topic):
     global client
     def on_publish(client,userdata,result):             #create function for callback
         print("data published \n")
@@ -40,20 +39,29 @@ def publish(message):
 
 def load_prices():
     global prices
-    prices.clear()
+    global last_update
     presentDate = datetime.datetime.now()
-    enddate = presentDate + datetime.timedelta(days=2)
-    unix_timestamp = datetime.datetime.timestamp(enddate)*1000
-    response = requests.get("https://api.awattar.at/v1/marketdata?end="+str(unix_timestamp))
-    message = response.text
-    # print (message)
-    data = json.loads(message, object_hook=lambda d: SimpleNamespace(**d))
-    for val in data.data:
-        start = datetime.datetime.fromtimestamp(val.start_timestamp/1000)
-        end = datetime.datetime.fromtimestamp(val.end_timestamp/1000)
-        price = val.marketprice
-        prices.update({start:price})
-        # print (start.strftime('%Y-%m-%d %H:%M:%S'), end.strftime('%Y-%m-%d %H:%M:%S'), price)
+    if last_update:
+        print (last_update.strftime('%Y-%m-%d %H:%M:%S'))
+        timediff = presentDate-last_update
+        print (timediff)
+        if timediff.total_seconds() > 3600:
+            enddate = presentDate + datetime.timedelta(days=2)
+            unix_timestamp = datetime.datetime.timestamp(enddate)*1000
+            response = requests.get("https://api.awattar.at/v1/marketdata?end="+str(unix_timestamp))
+            message = response.text
+            # print (message)
+            data = json.loads(message, object_hook=lambda d: SimpleNamespace(**d))
+            
+            prices.clear()
+            for val in data.data:
+                start = datetime.datetime.fromtimestamp(val.start_timestamp/1000)
+                end = datetime.datetime.fromtimestamp(val.end_timestamp/1000)
+                price = val.marketprice
+                prices.update({start:price})
+            last_update = datetime.datetime.now()
+            print("updated data")
+            
     print(get_current_price())
 
 def get_current_price(): #in cent/kwh
@@ -61,13 +69,13 @@ def get_current_price(): #in cent/kwh
     presentDate = datetime.datetime.now()
     for key in prices:
         if key < presentDate:
-            return prices[key]/10
+            return round(prices[key]/10, 2)
 
 def loop():
     while True:
         load_prices()
-        publish("test")
-        time.sleep(3600)
+        publish(get_current_price(), "home/awattar/current_price")
+        time.sleep(60)
 
 def run():
     global client
