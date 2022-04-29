@@ -89,7 +89,7 @@ def run():
     global client
     global prices
     global last_update
-    client = connect_mqtt()
+    # client = connect_mqtt()
     prices = {}
     last_update = datetime.datetime(1980,1,1,0,0,0,0)
     loop()
