@@ -54,7 +54,7 @@ def load_prices():
         price = val.marketprice
         prices.update({start:price})
         # print (start.strftime('%Y-%m-%d %H:%M:%S'), end.strftime('%Y-%m-%d %H:%M:%S'), price)
-    get_current_price()
+    print(get_current_price())
 
 def get_current_price():
     global prices
