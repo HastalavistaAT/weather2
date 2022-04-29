@@ -50,19 +50,22 @@ def load_prices():
         if timediff.total_seconds() >= update_frequency:
             enddate = presentDate + datetime.timedelta(days=2)
             unix_timestamp = datetime.datetime.timestamp(enddate)*1000
-            response = requests.get("https://api.awattar.at/v1/marketdata?end="+str(unix_timestamp))
-            message = response.text
-            # print (message)
-            data = json.loads(message, object_hook=lambda d: SimpleNamespace(**d))
-            
-            prices.clear()
-            for val in data.data:
-                start = datetime.datetime.fromtimestamp(val.start_timestamp/1000)
-                end = datetime.datetime.fromtimestamp(val.end_timestamp/1000)
-                price = val.marketprice/10
-                prices.update({start:price})
-            last_update = datetime.datetime.now()
-            print(last_update.strftime('%Y-%m-%d %H:%M:%S'), " loaded new data from awattar")
+            try:
+                response = requests.get("https://api.awattar.at/v1/marketdata?end="+str(unix_timestamp))
+                message = response.text
+                # print (message)
+                data = json.loads(message, object_hook=lambda d: SimpleNamespace(**d))
+                
+                prices.clear()
+                for val in data.data:
+                    start = datetime.datetime.fromtimestamp(val.start_timestamp/1000)
+                    end = datetime.datetime.fromtimestamp(val.end_timestamp/1000)
+                    price = val.marketprice/10
+                    prices.update({start:price})
+                last_update = datetime.datetime.now()
+                print(last_update.strftime('%Y-%m-%d %H:%M:%S'), " loaded new data from awattar")
+            except:
+                print(last_update.strftime('%Y-%m-%d %H:%M:%S'), " unable to load data from awattar")
             
     # print(get_current_price())
 
@@ -83,7 +86,7 @@ def loop():
         load_prices()
         #publish(get_current_price(), "home/awattar/current_price")
         #publish(json.dumps(get_lowest_price()), "home/awattar/lowest_price")
-        time.sleep(1)
+        time.sleep(10)
 
 def run():
     global client
