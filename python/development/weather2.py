@@ -115,8 +115,9 @@ def subscribe(client: mqtt_client):
             current_price = msg.payload.decode()
         if msg.topic == currnet_price_topic:
             message = json.loads(msg.payload.decode())
-            lowest_price.update({message[0]:message[1]})
             print(message[0], message[1])
+            lowest_price.update({message[0]:message[1]})
+            
         elif msg.topic == rtl_433_topic:
             message = json.loads(msg.payload.decode())
             if (message['model'] == "Ambientweather-F007TH"):
