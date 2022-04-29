@@ -59,9 +59,9 @@ def load_prices():
 def get_current_price():
     global prices
     presentDate = datetime.datetime.now()
-    for key, value in prices:
+    for key in prices:
         if key < presentDate:
-            return value
+            return prices[key]
 
 def loop():
     while True:
