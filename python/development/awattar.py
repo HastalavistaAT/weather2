@@ -3,6 +3,7 @@
 from paho.mqtt import client as mqtt_client
 import time
 import json
+from types import SimpleNamespace
 import requests
 import random
 
@@ -40,6 +41,8 @@ def load_prices():
     response = requests.get("https://api.awattar.at/v1/marketdata")
     message = response.json()
     print(message)
+    data = json.loads(message, object_hook=lambda d: SimpleNamespace(**d))
+    print (data.data)
     
 def loop():
     while True:
