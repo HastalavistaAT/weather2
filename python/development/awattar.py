@@ -40,8 +40,7 @@ def publish(message):
 
 def load_prices():
     global prices
-    if prices:
-        prices.clear()
+    prices.clear()
     presentDate = datetime.datetime.now()
     enddate = presentDate + datetime.timedelta(days=2)
     unix_timestamp = datetime.datetime.timestamp(enddate)*1000
@@ -59,13 +58,10 @@ def load_prices():
 
 def get_current_price():
     global prices
-    if prices:
-        presentDate = datetime.datetime.now()
-        for key, value in prices:
-            if key < presentDate:
-                return value
-    else:
-        return None
+    presentDate = datetime.datetime.now()
+    for key, value in prices:
+        if key < presentDate:
+            return value
 
 def loop():
     while True:
@@ -75,7 +71,9 @@ def loop():
 
 def run():
     global client
+    global prices
     client = connect_mqtt()
+    prices = {}
     loop()
 
 if __name__ == '__main__':
