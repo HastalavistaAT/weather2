@@ -56,12 +56,12 @@ def load_prices():
         # print (start.strftime('%Y-%m-%d %H:%M:%S'), end.strftime('%Y-%m-%d %H:%M:%S'), price)
     print(get_current_price())
 
-def get_current_price():
+def get_current_price(): #in cent/kwh
     global prices
     presentDate = datetime.datetime.now()
     for key in prices:
         if key < presentDate:
-            return prices[key]/100
+            return prices[key]/10
 
 def loop():
     while True:
