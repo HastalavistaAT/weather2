@@ -47,7 +47,13 @@ def load_prices():
     testtimestamp = data.data[0].start_timestamp/1000
     print (testtimestamp)
     print(datetime.datetime.fromtimestamp(testtimestamp).strftime('%Y-%m-%d %H:%M:%S'))
-    
+
+    for val in data.data:
+        start = val.start_timestamp/1000
+        end = val.end_timestamp/1000
+        price = val.marketprice
+        print (start, end, price)
+
 def loop():
     while True:
         load_prices()
