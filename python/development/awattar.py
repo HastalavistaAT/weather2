@@ -45,7 +45,7 @@ def load_prices():
     data = json.loads(message, object_hook=lambda d: SimpleNamespace(**d))
     print (data.data[0])
     print (data.data[0].start_timestamp)
-    print(datetime.utcfromtimestamp(data.data[0].start_timestamp).strftime('%Y-%m-%d %H:%M:%S'))
+    print(datetime.fromtimestamp(data.data[0].start_timestamp).strftime('%Y-%m-%d %H:%M:%S'))
     
 def loop():
     while True:
