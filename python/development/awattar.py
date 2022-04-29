@@ -52,7 +52,7 @@ def load_prices():
         start = val.start_timestamp/1000
         end = val.end_timestamp/1000
         price = val.marketprice
-        print (start, end, price)
+        print (start.strftime('%Y-%m-%d %H:%M:%S'), end.strftime('%Y-%m-%d %H:%M:%S'), price)
 
 def loop():
     while True:
