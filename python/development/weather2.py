@@ -19,6 +19,8 @@ from paho.mqtt import client as mqtt_client
 import sched, time
 import threading
 
+import awattar
+
 # settings
 broker = 'localhost'
 port = 1883
@@ -260,8 +262,10 @@ def draw_display():
 def run():
     client = connect_mqtt()
     subscribe(client)
-    x = threading.Thread(target=display_update_checker, daemon=True)
-    x.start()
+    display_update_thread = threading.Thread(target=display_update_checker, daemon=True)
+    display_update_thread.start()
+    awattar_thread = threading.Thread(target=awattar.run, daemon=True)
+    awattar_thread.start()
     client.loop_forever()
 
 
