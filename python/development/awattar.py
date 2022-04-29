@@ -83,7 +83,7 @@ def run():
     global last_update
     client = connect_mqtt()
     prices = {}
-    last_update = datetime.datetime(0,0,0,0,0,0,0)
+    last_update = datetime.datetime(1980,1,1,0,0,0,0)
     loop()
 
 if __name__ == '__main__':
