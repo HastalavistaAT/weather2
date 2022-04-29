@@ -24,7 +24,7 @@ broker = 'localhost'
 port = 1883
 rtl_433_topic = "home/rtl_433"
 currnet_price_topic = "home/awattar/current_price"
-topic = [rtl_433_topic, currnet_price_topic]
+topic = [(rtl_433_topic,0),(currnet_price_topic,0)]
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 100)}'
 # username = 'emqx'
