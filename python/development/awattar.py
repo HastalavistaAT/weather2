@@ -42,7 +42,7 @@ def load_prices():
     presentDate = datetime.datetime.now()
     enddate = presentDate + datetime.timedelta(days=2)
     unix_timestamp = datetime.datetime.timestamp(enddate)*1000
-    response = requests.get("https://api.awattar.at/v1/marketdata?end="+unix_timestamp)
+    response = requests.get("https://api.awattar.at/v1/marketdata?end="+str(unix_timestamp))
     message = response.text
     # print (message)
     data = json.loads(message, object_hook=lambda d: SimpleNamespace(**d))
