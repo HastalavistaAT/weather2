@@ -22,7 +22,9 @@ import threading
 # settings
 broker = 'localhost'
 port = 1883
-topic = "home/rtl_433"
+rtl_433_topic = "home/rtl_433"
+currnet_price_topic = "home/awattar/current_price"
+topic = [rtl_433_topic, currnet_price_topic]
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 100)}'
 # username = 'emqx'
@@ -70,6 +72,8 @@ bedroom = {
   "last_update": None,
 }
 
+current_price = 0.00
+
 # settings for display
 fontbold34 = ImageFont.truetype(os.path.join(picdir, 'ARLRDBD.TTF'), 34)
 fontbold24 = ImageFont.truetype(os.path.join(picdir, 'ARLRDBD.TTF'), 24)
@@ -101,34 +105,37 @@ def convert_F_to_C(fahrenheit):
 def subscribe(client: mqtt_client):
     def on_message(client, userdata, msg):
         #print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
-        message = json.loads(msg.payload.decode())
-        if (message['model'] == "Ambientweather-F007TH"):
-            channel = message["channel"]
-            if (channel == 1): 
-                garden["temperature_C"] =  convert_F_to_C(message['temperature_F'])
-                garden["humidity"] =  message['humidity']
-                garden["battery"] =  message['battery_ok']
-                garden["last_update"] = datetime.now()
-            elif (channel == 2): 
-                greenhouse["temperature_C"] =  convert_F_to_C(message['temperature_F'])
-                greenhouse["humidity"] =  message['humidity']
-                greenhouse["battery"] =  message['battery_ok']
-                greenhouse["last_update"] = datetime.now()
-            elif (channel == 3): 
-                attic["temperature_C"] =  convert_F_to_C(message['temperature_F'])
-                attic["humidity"] =  message['humidity']
-                attic["battery"] =  message['battery_ok']
-                attic["last_update"] = datetime.now()
-            elif (channel == 4): 
-                indoor["temperature_C"] = convert_F_to_C(message['temperature_F'])
-                indoor["humidity"] =  message['humidity']
-                indoor["battery"] =  message['battery_ok']
-                indoor["last_update"] = datetime.now()
-            elif (channel == 7):  
-                bedroom["temperature_C"] =  convert_F_to_C(message['temperature_F'])
-                bedroom["humidity"] =  message['humidity']
-                bedroom["battery"] =  message['battery_ok']
-                bedroom["last_update"] = datetime.now()
+        if msg.topic == currnet_price_topic:
+            current_price = msg.payload.decode()
+        elif msg.topic == rtl_433_topic:
+            message = json.loads(msg.payload.decode())
+            if (message['model'] == "Ambientweather-F007TH"):
+                channel = message["channel"]
+                if (channel == 1): 
+                    garden["temperature_C"] =  convert_F_to_C(message['temperature_F'])
+                    garden["humidity"] =  message['humidity']
+                    garden["battery"] =  message['battery_ok']
+                    garden["last_update"] = datetime.now()
+                elif (channel == 2): 
+                    greenhouse["temperature_C"] =  convert_F_to_C(message['temperature_F'])
+                    greenhouse["humidity"] =  message['humidity']
+                    greenhouse["battery"] =  message['battery_ok']
+                    greenhouse["last_update"] = datetime.now()
+                elif (channel == 3): 
+                    attic["temperature_C"] =  convert_F_to_C(message['temperature_F'])
+                    attic["humidity"] =  message['humidity']
+                    attic["battery"] =  message['battery_ok']
+                    attic["last_update"] = datetime.now()
+                elif (channel == 4): 
+                    indoor["temperature_C"] = convert_F_to_C(message['temperature_F'])
+                    indoor["humidity"] =  message['humidity']
+                    indoor["battery"] =  message['battery_ok']
+                    indoor["last_update"] = datetime.now()
+                elif (channel == 7):  
+                    bedroom["temperature_C"] =  convert_F_to_C(message['temperature_F'])
+                    bedroom["humidity"] =  message['humidity']
+                    bedroom["battery"] =  message['battery_ok']
+                    bedroom["last_update"] = datetime.now()
     client.subscribe(topic)
     client.on_message = on_message
 
@@ -227,6 +234,9 @@ def draw_display():
                 drawred.rectangle((134, 89, 199, 155), fill = 0)
         else:
             drawred.rectangle((134, 89, 199, 155), fill = 0)
+
+        # right area
+        drawblack.text((232, 16), f"{str(round(current_price, 1))}°", font = fontbold24, align='center', fill = 0, anchor="mm")
 
         # bottom line
         drawblack.text((42, 166), "05:58", font = fontbold16, align='center', fill = 0, anchor="mm")
