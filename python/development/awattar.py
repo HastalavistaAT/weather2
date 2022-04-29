@@ -69,7 +69,7 @@ def get_current_price(): #in cent/kwh
     presentDate = datetime.datetime.now()
     for key in prices:
         if key < presentDate:
-            return round(prices[key]/10, 2)
+            return prices[key]/10
 
 def get_lowest_price():
     lowest_prices = sorted(prices.items(), key=lambda x: x[1])
@@ -79,8 +79,8 @@ def get_lowest_price():
 def loop():
     while True:
         load_prices()
-        publish(get_current_price(), "home/awattar/current_price")
-        publish(json.dumps(get_lowest_price()), "home/awattar/lowest_price")
+        #publish(get_current_price(), "home/awattar/current_price")
+        #publish(json.dumps(get_lowest_price()), "home/awattar/lowest_price")
         time.sleep(60)
 
 def run():

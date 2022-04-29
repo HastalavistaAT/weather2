@@ -25,9 +25,7 @@ import awattar
 broker = 'localhost'
 port = 1883
 rtl_433_topic = "home/rtl_433"
-currnet_price_topic = "home/awattar/current_price"
-lowest_price_topic = "home/awattar/lowest_price"
-topic = [(rtl_433_topic,0),(currnet_price_topic,0),(lowest_price_topic,0)]
+topic = [(rtl_433_topic,0)]
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 100)}'
 # username = 'emqx'
@@ -75,9 +73,6 @@ bedroom = {
   "last_update": None,
 }
 
-current_price = 0.00
-lowest_price = {}
-
 # settings for display
 fontbold34 = ImageFont.truetype(os.path.join(picdir, 'ARLRDBD.TTF'), 34)
 fontbold24 = ImageFont.truetype(os.path.join(picdir, 'ARLRDBD.TTF'), 24)
@@ -108,17 +103,8 @@ def convert_F_to_C(fahrenheit):
 
 def subscribe(client: mqtt_client):
     def on_message(client, userdata, msg):
-        global current_price
-        global lowest_price
         #print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
-        if msg.topic == currnet_price_topic:
-            current_price = msg.payload.decode()
-        if msg.topic == lowest_price_topic:
-            message = json.loads(msg.payload.decode())
-            print(message[0], message[1])
-            lowest_price.update({message[0]:message[1]})
-            
-        elif msg.topic == rtl_433_topic:
+        if msg.topic == rtl_433_topic:
             message = json.loads(msg.payload.decode())
             if (message['model'] == "Ambientweather-F007TH"):
                 channel = message["channel"]
@@ -247,10 +233,10 @@ def draw_display():
             drawred.rectangle((134, 89, 199, 155), fill = 0)
 
         # right area
-        drawblack.text((232, 15), f"{str(round(float(current_price), 1))}", font = fontbold24, align='center', fill = 0, anchor="mm")
+        drawblack.text((232, 15), f"{str(round(awattar.get_current_price()), 1)}", font = fontbold24, align='center', fill = 0, anchor="mm")
         drawblack.text((232, 32), f"ct/kWh", font = font14, align='center', fill = 0, anchor="mm")
 
-        drawblack.text((232, 45), f"{str(round(float(lowest_price[1]), 1))}", font = fontbold24, align='center', fill = 0, anchor="mm")
+        drawblack.text((232, 45), f"{str(round(awattar.get_lowest_price()[1]), 1)}", font = fontbold24, align='center', fill = 0, anchor="mm")
         drawblack.text((232, 62), f"ct/kWh", font = font14, align='center', fill = 0, anchor="mm")
 
         # bottom line
