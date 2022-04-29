@@ -48,7 +48,6 @@ def load_prices():
     message = response.text
     # print (message)
     data = json.loads(message, object_hook=lambda d: SimpleNamespace(**d))
-    int i = 0
     for val in data.data:
         start = datetime.datetime.fromtimestamp(val.start_timestamp/1000)
         end = datetime.datetime.fromtimestamp(val.end_timestamp/1000)
