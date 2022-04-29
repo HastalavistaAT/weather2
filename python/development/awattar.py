@@ -42,10 +42,7 @@ def load_prices():
     message = response.text
     print (message)
     data = json.loads(message, object_hook=lambda d: SimpleNamespace(**d))
-    print (data)
-    print (data.url)
-    print (data.object)
-    print (data.data)
+    print (data.data[0])
     
 def loop():
     while True:
