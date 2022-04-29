@@ -76,7 +76,7 @@ bedroom = {
 }
 
 current_price = 0.00
-lowest_price = ()
+lowest_price = {}
 
 # settings for display
 fontbold34 = ImageFont.truetype(os.path.join(picdir, 'ARLRDBD.TTF'), 34)
@@ -115,7 +115,7 @@ def subscribe(client: mqtt_client):
             current_price = msg.payload.decode()
         if msg.topic == currnet_price_topic:
             message = json.loads(msg.payload.decode())
-            lowest_price = (message[0], message[1])
+            lowest_price.update({message[0]:message[1]})
             print(message[0], message[1])
         elif msg.topic == rtl_433_topic:
             message = json.loads(msg.payload.decode())
