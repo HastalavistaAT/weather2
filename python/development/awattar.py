@@ -83,7 +83,7 @@ def get_lowest_price():
 
 def loop():
     while True:
-        load_prices()
+        #load_prices()
         #publish(get_current_price(), "home/awattar/current_price")
         #publish(json.dumps(get_lowest_price()), "home/awattar/lowest_price")
         time.sleep(10)
