@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import datetime
 from paho.mqtt import client as mqtt_client
 import time
 import json
@@ -40,9 +41,11 @@ def publish(message):
 def load_prices():
     response = requests.get("https://api.awattar.at/v1/marketdata")
     message = response.text
-    print (message)
+    # print (message)
     data = json.loads(message, object_hook=lambda d: SimpleNamespace(**d))
     print (data.data[0])
+    print (data.data[0].start_timestamp)
+    print(datetime.utcfromtimestamp(data.data[0].start_timestamp).strftime('%Y-%m-%d %H:%M:%S'))
     
 def loop():
     while True:
