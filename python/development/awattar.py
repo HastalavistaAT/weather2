@@ -61,7 +61,7 @@ def get_current_price():
     presentDate = datetime.datetime.now()
     for key in prices:
         if key < presentDate:
-            return prices[key]
+            return prices[key]/100
 
 def loop():
     while True:
