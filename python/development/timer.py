@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import random
 import time, datetime
 
@@ -153,7 +154,7 @@ UNKNOWN = 0
 DOWN = -1
 UP = 1
 
-def loop(client):
+def loop():
     state = UNKNOWN
     time.sleep(1)
     while True:
@@ -195,7 +196,7 @@ def loop(client):
 def run():
     global client
     client = connect_mqtt()
-    loop(client)
+    loop()
     
 
 if __name__ == '__main__':
