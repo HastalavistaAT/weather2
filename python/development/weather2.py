@@ -235,12 +235,12 @@ def draw_display():
         # right area
         try:
             current_price = awattar.get_current_price()
-            if current_price:
+            if current_price is not None:
                 drawblack.text((232, 15), f"{str(round(current_price, 1))}", font = fontbold24, align='center', fill = 0, anchor="mm")
                 drawblack.text((232, 32), f"ct/kWh", font = font14, align='center', fill = 0, anchor="mm")
 
             lowest_price = awattar.get_lowest_price()
-            if lowest_price:
+            if lowest_price is not None:
                 drawblack.text((232, 55), f"{str(round(lowest_price[1], 1))}", font = fontbold24, align='center', fill = 0, anchor="mm")
                 drawblack.text((232, 72), f"ct/kWh", font = font14, align='center', fill = 0, anchor="mm")
                 drawblack.text((232, 86), f"{lowest_price[0].strftime('%d.%m.')}", font = font14, align='center', fill = 0, anchor="mm")
