@@ -26,7 +26,8 @@ broker = 'localhost'
 port = 1883
 rtl_433_topic = "home/rtl_433"
 currnet_price_topic = "home/awattar/current_price"
-topic = [(rtl_433_topic,0),(currnet_price_topic,0)]
+lowest_price_topic = "home/awattar/lowest_price"
+topic = [(rtl_433_topic,0),(currnet_price_topic,0),(lowest_price_topic,0)]
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 100)}'
 # username = 'emqx'
@@ -75,6 +76,7 @@ bedroom = {
 }
 
 current_price = 0.00
+lowest_price = ()
 
 # settings for display
 fontbold34 = ImageFont.truetype(os.path.join(picdir, 'ARLRDBD.TTF'), 34)
@@ -107,9 +109,12 @@ def convert_F_to_C(fahrenheit):
 def subscribe(client: mqtt_client):
     def on_message(client, userdata, msg):
         global current_price
+        global lowest_price
         #print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
         if msg.topic == currnet_price_topic:
             current_price = msg.payload.decode()
+        if msg.topic == currnet_price_topic:
+            lowest_price = msg.payload.decode()
         elif msg.topic == rtl_433_topic:
             message = json.loads(msg.payload.decode())
             if (message['model'] == "Ambientweather-F007TH"):
@@ -241,6 +246,9 @@ def draw_display():
         # right area
         drawblack.text((232, 15), f"{str(round(float(current_price), 1))}", font = fontbold24, align='center', fill = 0, anchor="mm")
         drawblack.text((232, 32), f"ct/kWh", font = font14, align='center', fill = 0, anchor="mm")
+
+        drawblack.text((232, 45), f"{str(round(float(lowest_price[1]), 1))}", font = fontbold24, align='center', fill = 0, anchor="mm")
+        drawblack.text((232, 62), f"ct/kWh", font = font14, align='center', fill = 0, anchor="mm")
 
         # bottom line
         drawblack.text((42, 166), "05:58", font = fontbold16, align='center', fill = 0, anchor="mm")

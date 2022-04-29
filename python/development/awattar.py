@@ -62,7 +62,7 @@ def load_prices():
             last_update = datetime.datetime.now()
             print("updated data")
             
-    print(get_current_price())
+    # print(get_current_price())
 
 def get_current_price(): #in cent/kwh
     global prices
@@ -71,10 +71,16 @@ def get_current_price(): #in cent/kwh
         if key < presentDate:
             return round(prices[key]/10, 2)
 
+def get_lowest_price():
+    lowest_prices = sorted(prices.items(), key=lambda x: x[1])
+    return next(iter(lowest_prices))
+
+
 def loop():
     while True:
         load_prices()
         publish(get_current_price(), "home/awattar/current_price")
+        publish(get_lowest_price(), "home/awattar/lowest_price")
         time.sleep(60)
 
 def run():
