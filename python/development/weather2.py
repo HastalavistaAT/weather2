@@ -239,7 +239,7 @@ def draw_display():
             drawred.rectangle((134, 89, 199, 155), fill = 0)
 
         # right area
-        drawblack.text((232, 15), f"{str(round(current_price, 1))}", font = fontbold24, align='center', fill = 0, anchor="mm")
+        drawblack.text((232, 15), f"{str(round(float(current_price), 1))}", font = fontbold24, align='center', fill = 0, anchor="mm")
         drawblack.text((232, 32), f"ct/kWh", font = font14, align='center', fill = 0, anchor="mm")
 
         # bottom line
