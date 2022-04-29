@@ -236,8 +236,9 @@ def draw_display():
         drawblack.text((232, 15), f"{str(round(awattar.get_current_price(), 1))}", font = fontbold24, align='center', fill = 0, anchor="mm")
         drawblack.text((232, 32), f"ct/kWh", font = font14, align='center', fill = 0, anchor="mm")
 
-        drawblack.text((232, 45), f"{str(round(awattar.get_lowest_price()[1], 1))}", font = fontbold24, align='center', fill = 0, anchor="mm")
-        drawblack.text((232, 62), f"ct/kWh", font = font14, align='center', fill = 0, anchor="mm")
+        drawblack.text((232, 55), f"{str(round(awattar.get_lowest_price()[1], 1))}", font = fontbold24, align='center', fill = 0, anchor="mm")
+        drawblack.text((232, 72), f"ct/kWh", font = font14, align='center', fill = 0, anchor="mm")
+        drawblack.text((232, 84), f"{awattar.get_lowest_price()[0].strftime('%d.%m. %H')} Uhr", font = font14, align='center', fill = 0, anchor="mm")
 
         # bottom line
         drawblack.text((42, 166), "05:58", font = fontbold16, align='center', fill = 0, anchor="mm")

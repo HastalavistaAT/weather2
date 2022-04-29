@@ -57,7 +57,7 @@ def load_prices():
             for val in data.data:
                 start = datetime.datetime.fromtimestamp(val.start_timestamp/1000)
                 end = datetime.datetime.fromtimestamp(val.end_timestamp/1000)
-                price = val.marketprice
+                price = val.marketprice/10
                 prices.update({start:price})
             last_update = datetime.datetime.now()
             print("updated data")
@@ -69,7 +69,7 @@ def get_current_price(): #in cent/kwh
     presentDate = datetime.datetime.now()
     for key in prices:
         if key < presentDate:
-            return prices[key]/10
+            return prices[key]
 
 def get_lowest_price():
     lowest_prices = sorted(prices.items(), key=lambda x: x[1])
