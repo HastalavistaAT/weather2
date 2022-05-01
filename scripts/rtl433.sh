@@ -12,4 +12,4 @@ rtl_433 -T 3
 rtl_433 -T 3
 rtl_433 -T 3
 # listen to protocol 20 (TFA weather sensors) and publish on mosquitto
-rtl_433 -R20 -F json -M utc | mosquitto_pub -t home/rtl_433 -l 
+rtl_433 -F json -M utc | mosquitto_pub -t home/rtl_433 -l 

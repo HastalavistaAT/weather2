@@ -9,7 +9,7 @@ import requests
 import random
 
 # settings
-update_frequency = 3600 # seconds
+update_frequency = 900 # seconds
 
 broker = 'localhost'
 port = 1883
@@ -67,13 +67,15 @@ def load_prices():
             except:
                 print(last_update.strftime('%Y-%m-%d %H:%M:%S'), " unable to load data from awattar")
             
-    # print(get_current_price())
+    #print(get_current_price())
 
 def get_current_price(): #in cent/kwh
     global prices
     presentDate = datetime.datetime.now()
     for key in prices:
-        if key < presentDate:
+        timediff = presentDate - key
+        #print(key, timediff.total_seconds())
+        if timediff.total_seconds() < 3600:
             return prices[key]
 
 def get_lowest_price():
