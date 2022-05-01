@@ -154,33 +154,45 @@ UNKNOWN = 0
 DOWN = -1
 UP = 1
 
+def calculate_open_time():
+    lt = time.localtime() # Aktuelle, lokale Zeit als Tupel
+    # Entpacken des Tupels
+    lt_jahr, lt_monat, lt_tag = lt[0:3]        # Datum
+    lt_dst = lt[8]                             # Sommerzeit
+
+    AM, UM = Sonnenauf_untergang (JulianischesDatum(lt_jahr, lt_monat, lt_tag, 12, 0, 0), lt_dst + 1)
+
+    AMh = int(math.floor(AM))
+    AMm = int((AM - AMh)*60)
+
+    # add some minutes so that closure is not happening too early and opening before sunrise
+    sunrise = datetime.time(AMh, AMm, 0)
+    sunrise_offset = datetime.datetime.combine(datetime.date.today(), sunrise) - datetime.timedelta(minutes = 30)
+
+def calculate_close_time():
+    lt = time.localtime() # Aktuelle, lokale Zeit als Tupel
+    # Entpacken des Tupels
+    lt_jahr, lt_monat, lt_tag = lt[0:3]        # Datum
+    lt_dst = lt[8]                             # Sommerzeit
+
+    AM, UM = Sonnenauf_untergang (JulianischesDatum(lt_jahr, lt_monat, lt_tag, 12, 0, 0), lt_dst + 1)
+
+    UMh = int(math.floor(UM))
+    UMm = int((UM - UMh)*60)
+
+    # add some minutes so that closure is not happening too early and opening before sunrise
+    sunset = datetime.time(UMh, UMm, 0)
+    sunset_offset = datetime.datetime.combine(datetime.date.today(), sunset) + datetime.timedelta(minutes = 30)
+
+    
 def loop():
     state = UNKNOWN
     time.sleep(1)
     while True:
-        lt = time.localtime() # Aktuelle, lokale Zeit als Tupel
-        # Entpacken des Tupels
-        lt_jahr, lt_monat, lt_tag = lt[0:3]        # Datum
-        lt_dst = lt[8]                             # Sommerzeit
-
-        AM, UM = Sonnenauf_untergang (JulianischesDatum(lt_jahr, lt_monat, lt_tag, 12, 0, 0), lt_dst + 1)
-
-        AMh = int(math.floor(AM))
-        AMm = int((AM - AMh)*60)
-
-        UMh = int(math.floor(UM))
-        UMm = int((UM - UMh)*60)
-
-        # add some minutes so that closure is not happening too early and opening before sunrise
-        sunset = datetime.time(UMh, UMm, 0)
-        sunset_offset = datetime.datetime.combine(datetime.date.today(), sunset) + datetime.timedelta(minutes = 30)
-
-        sunrise = datetime.time(AMh, AMm, 0)
-        sunrise_offset = datetime.datetime.combine(datetime.date.today(), sunrise) - datetime.timedelta(minutes = 30)
-            
+           
         current_time = datetime.datetime.now().time()
 
-        if (time_in_range(sunrise_offset.time(), sunset_offset.time(), current_time)):
+        if (time_in_range(calculate_open_time().time(), calculate_close_time().time(), current_time)):
             if not state == UP:
                 state = UP
                 switchrelay(20)
