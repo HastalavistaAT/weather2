@@ -256,11 +256,12 @@ def draw_display():
                 today_tomorrow = "morgen"
                 if GS_start_time.date() == datetime.now().date():
                     today_tomorrow = "heute"
-                drawblack.text((232, 138), f"{today_tomorrow}", font = font16, align='center', fill = 0, anchor="mm")
+                drawblack.text((232, 135), f"{today_tomorrow}", font = font16, align='center', fill = 0, anchor="mm")
                 drawblack.text((232, 151), f"{GS_start_time.strftime('%H')} Uhr", font = font16, align='center', fill = 0, anchor="mm")
                 time_diff = datetime.now() - GS_start_time
-                hours = time_diff.seconds//3600
-                minutes = (time_diff.seconds//60) % 60
+                total_seconds = time_diff.seconds+time_diff.days*24*60*60
+                hours = total_seconds//3600
+                minutes = (total_seconds//60) % 60
                 drawblack.text((232, 166), f"T-{hours}:{minutes}", font = fontbold16, align='center', fill = 0, anchor="mm")
                 
 
