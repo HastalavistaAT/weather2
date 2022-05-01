@@ -67,7 +67,7 @@ def load_prices():
             except:
                 print(last_update.strftime('%Y-%m-%d %H:%M:%S'), " unable to load data from awattar")
             
-    #print(get_current_price())
+    #print(get_lowest_x_prices(3))
 
 def get_current_price(): #in cent/kwh
     global prices
@@ -84,6 +84,31 @@ def get_lowest_price():
         return next(iter(lowest_prices))
     else:
         return None
+
+def get_lowest_x_prices(x):
+    global prices
+    found_items = {}
+    last_x_items = {}
+    for item in prices.items():
+        if len(last_x_items) < x:
+            last_x_items[item[0]] = item[1]
+        else:
+            last_x_items[item[0]] = item[1]
+            last_x_items.pop(list(last_x_items.keys())[0])
+        #print(last_x_items)
+        if len(last_x_items) == x:
+            if len(found_items) == x:
+                average_old = (sum(found_items.values()) / len(found_items.values()))
+                average_new = (sum(last_x_items.values()) / len(last_x_items.values()))
+                #print(average_old, average_new)
+                if average_new < average_old:
+                    found_itmes.clear()
+                    found_items.update(last_x_items.items())
+            else:
+                found_items.clear()
+                found_items.update(last_x_items.items())
+    return found_items
+
 
 
 def loop():

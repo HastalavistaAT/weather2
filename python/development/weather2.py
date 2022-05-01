@@ -248,6 +248,13 @@ def draw_display():
                     today_tomorrow = "heute"
                 drawblack.text((232, 86), f"{today_tomorrow}", font = font18, align='center', fill = 0, anchor="mm")
                 drawblack.text((232, 102), f"{lowest_price[0].strftime('%H')} Uhr", font = font18, align='center', fill = 0, anchor="mm")
+        
+            lowest_3_hours = awattar.get_lowest_x_prices(3)
+            if lowest_3_hours is not None and len(lowest_3_hours) == 3:
+                GS_start_time = list(lowest_3_hours.keys())[0]
+                drawblack.text((232, 130), f"Geschirr", font = font16, align='center', fill = 0, anchor="mm")
+                drawblack.text((232, 146), f"{GS_start_time.strftime('%H')} Uhr", font = font18, align='center', fill = 0, anchor="mm")
+
         except:
             print("Error when drawing awattar prices")
 
