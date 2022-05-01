@@ -243,7 +243,10 @@ def draw_display():
             if lowest_price is not None:
                 drawblack.text((232, 55), f"{str(round(lowest_price[1], 1))}", font = fontbold24, align='center', fill = 0, anchor="mm")
                 drawblack.text((232, 72), f"ct/kWh", font = font14, align='center', fill = 0, anchor="mm")
-                drawblack.text((232, 86), f"{lowest_price[0].strftime('%d.%m.')}", font = font14, align='center', fill = 0, anchor="mm")
+                today_tomorow = "morgen"
+                if lowest_price[0].date() == datetime.now().date():
+                    today_tomorrow = "heute"
+                drawblack.text((232, 86), f"{today_tomorrow}", font = font18, align='center', fill = 0, anchor="mm")
                 drawblack.text((232, 102), f"{lowest_price[0].strftime('%H')} Uhr", font = font18, align='center', fill = 0, anchor="mm")
         except:
             print("Error when drawing awattar prices")
