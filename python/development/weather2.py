@@ -256,10 +256,10 @@ def draw_display():
                 today_tomorrow = "morgen"
                 if GS_start_time.date() == datetime.now().date():
                     today_tomorrow = "heute"
-                drawblack.text((232, 146), f"{today_tomorrow}", font = font18, align='center', fill = 0, anchor="mm")
-                drawblack.text((232, 160), f"{GS_start_time.strftime('%H')} Uhr", font = font18, align='center', fill = 0, anchor="mm")
+                drawblack.text((232, 145), f"{today_tomorrow}", font = font16, align='center', fill = 0, anchor="mm")
+                drawblack.text((232, 158), f"{GS_start_time.strftime('%H')} Uhr", font = font16, align='center', fill = 0, anchor="mm")
                 time_diff = datetime.now() - GS_start_time
-                drawblack.text((232, 176), f"{time_diff.strftime('%H:M%')} Uhr", font = font18, align='center', fill = 0, anchor="mm")
+                drawblack.text((232, 166), f"T-{time_diff.hours}{time_diff.minutes}", font = font24, align='center', fill = 0, anchor="mm")
                 
 
         #except:
