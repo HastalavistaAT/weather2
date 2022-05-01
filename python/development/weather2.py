@@ -261,7 +261,8 @@ def draw_display():
                 drawblack.text((232, 151), f"{GS_start_time.strftime('%H')} Uhr", font = font16, align='center', fill = 0, anchor="mm")
                 time_diff = datetime.now() - GS_start_time
                 print(time_diff)
-                total_seconds = time_diff.total_seconds
+                total_seconds = time_diff.total_seconds()
+                print(total_seconds)
                 hours = total_seconds//3600
                 minutes = (total_seconds//60) % 60
                 print(total_seconds, hours, minutes)
