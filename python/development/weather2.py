@@ -1,4 +1,5 @@
 #!/usr/bin/python
+from sqlite3 import TimeFromTicks
 import sys
 import os
 picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
@@ -261,6 +262,7 @@ def draw_display():
                 time_diff = datetime.now() - GS_start_time
                 print(time_diff)
                 total_seconds = time_diff.seconds+time_diff.days*24*60*60
+                print(time_diff.seconds, time_diff.days)
                 hours = total_seconds//3600
                 minutes = (total_seconds//60) % 60
                 print(total_seconds, hours, minutes)
