@@ -1,4 +1,5 @@
 #!/usr/bin/python
+from pickle import FALSE, TRUE
 from sqlite3 import TimeFromTicks
 import sys
 import os
@@ -143,11 +144,17 @@ def display_update_checker():
         time.sleep(display_refresh)
 
 def format_seconds_to_hhmm(seconds):
+    is_negative = FALSE
+    if seconds < 0:
+        is_negative = TRUE
     seconds = abs(seconds)
     hours = seconds // (60*60)
     seconds %= (60*60)
     minutes = seconds // 60
-    return "%02i:%02i" % (hours, minutes)
+    if is_negative:
+        return "-%02i:%02i" % (hours, minutes)
+    else:
+        return "%02i:%02i" % (hours, minutes)
         
 def draw_display():
     try:
