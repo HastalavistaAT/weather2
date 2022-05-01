@@ -260,13 +260,12 @@ def draw_display():
                 drawblack.text((232, 135), f"{today_tomorrow}", font = font16, align='center', fill = 0, anchor="mm")
                 drawblack.text((232, 151), f"{GS_start_time.strftime('%H')} Uhr", font = font16, align='center', fill = 0, anchor="mm")
                 time_diff = datetime.now() - GS_start_time
-                print(time_diff)
                 total_seconds = time_diff.total_seconds()
                 print(total_seconds)
-                hours = total_seconds//3600
-                minutes = (total_seconds//60) % 60
+                minutes = total_seconds//60
+                hours = minutes//60
                 print(total_seconds, hours, minutes)
-                drawblack.text((232, 166), f"T{hours}:{minutes}", font = fontbold16, align='center', fill = 0, anchor="mm")
+                drawblack.text((232, 166), f"T{hours}:{minutes % 60}", font = fontbold16, align='center', fill = 0, anchor="mm")
                 
 
         #except:
