@@ -102,7 +102,7 @@ def get_lowest_x_prices(x):
                 average_new = (sum(last_x_items.values()) / len(last_x_items.values()))
                 #print(average_old, average_new)
                 if average_new < average_old:
-                    found_itmes.clear()
+                    found_items.clear()
                     found_items.update(last_x_items.items())
             else:
                 found_items.clear()
