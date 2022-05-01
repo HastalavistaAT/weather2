@@ -143,6 +143,7 @@ def display_update_checker():
         time.sleep(display_refresh)
 
 def format_seconds_to_hhmm(seconds):
+    seconds = abs(seconds)
     hours = seconds // (60*60)
     seconds %= (60*60)
     minutes = seconds // 60
