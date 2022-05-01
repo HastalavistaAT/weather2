@@ -241,27 +241,27 @@ def draw_display():
 
             lowest_price = awattar.get_lowest_price()
             if lowest_price is not None:
-                drawblack.text((232, 55), f"{str(round(lowest_price[1], 1))}", font = fontbold24, align='center', fill = 0, anchor="mm")
-                drawblack.text((232, 72), f"ct/kWh", font = font14, align='center', fill = 0, anchor="mm")
+                drawblack.text((232, 52), f"{str(round(lowest_price[1], 1))}", font = fontbold24, align='center', fill = 0, anchor="mm")
+                drawblack.text((232, 69), f"ct/kWh", font = font14, align='center', fill = 0, anchor="mm")
                 today_tomorrow = "morgen"
                 if lowest_price[0].date() == datetime.now().date():
                     today_tomorrow = "heute"
-                drawblack.text((232, 86), f"{today_tomorrow}", font = font18, align='center', fill = 0, anchor="mm")
-                drawblack.text((232, 102), f"{lowest_price[0].strftime('%H')} Uhr", font = font18, align='center', fill = 0, anchor="mm")
+                drawblack.text((232, 83), f"{today_tomorrow}", font = font18, align='center', fill = 0, anchor="mm")
+                drawblack.text((232, 99), f"{lowest_price[0].strftime('%H')} Uhr", font = font18, align='center', fill = 0, anchor="mm")
         
             lowest_3_hours = awattar.get_lowest_x_prices(3)
             if lowest_3_hours is not None and len(lowest_3_hours) == 3:
                 GS_start_time = list(lowest_3_hours.keys())[0]
-                drawblack.text((232, 130), f"Geschirr", font = font16, align='center', fill = 0, anchor="mm")
+                drawblack.text((232, 127), f"Geschirr", font = font16, align='center', fill = 0, anchor="mm")
                 today_tomorrow = "morgen"
                 if GS_start_time.date() == datetime.now().date():
                     today_tomorrow = "heute"
-                drawblack.text((232, 145), f"{today_tomorrow}", font = font16, align='center', fill = 0, anchor="mm")
-                drawblack.text((232, 158), f"{GS_start_time.strftime('%H')} Uhr", font = font16, align='center', fill = 0, anchor="mm")
+                drawblack.text((232, 142), f"{today_tomorrow}", font = font16, align='center', fill = 0, anchor="mm")
+                drawblack.text((232, 155), f"{GS_start_time.strftime('%H')} Uhr", font = font16, align='center', fill = 0, anchor="mm")
                 time_diff = datetime.now() - GS_start_time
                 hours = time_diff.seconds//3600
                 minutes = (time_diff.seconds//60) % 60
-                drawblack.text((232, 166), f"T-{hours}:{minutes}", font = font24, align='center', fill = 0, anchor="mm")
+                drawblack.text((232, 166), f"T-{hours}:{minutes}", font = fontbold16, align='center', fill = 0, anchor="mm")
                 
 
         #except:
