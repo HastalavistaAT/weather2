@@ -194,7 +194,7 @@ def loop():
            
         current_time = datetime.datetime.now().time()
 
-        if (time_in_range(calculate_open_time(), calculate_close_time(), current_time)):
+        if (time_in_range(calculate_open_time().time(), calculate_close_time().time(), current_time)):
             if not state == UP:
                 state = UP
                 switchrelay(20)
