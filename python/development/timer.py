@@ -168,6 +168,7 @@ def calculate_open_time():
     # add some minutes so that closure is not happening too early and opening before sunrise
     sunrise = datetime.time(AMh, AMm, 0)
     sunrise_offset = datetime.datetime.combine(datetime.date.today(), sunrise) - datetime.timedelta(minutes = 30)
+    return sunrise_offset
 
 def calculate_close_time():
     lt = time.localtime() # Aktuelle, lokale Zeit als Tupel
@@ -183,6 +184,7 @@ def calculate_close_time():
     # add some minutes so that closure is not happening too early and opening before sunrise
     sunset = datetime.time(UMh, UMm, 0)
     sunset_offset = datetime.datetime.combine(datetime.date.today(), sunset) + datetime.timedelta(minutes = 30)
+    return sunset_offset
 
     
 def loop():
