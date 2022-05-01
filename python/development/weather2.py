@@ -233,7 +233,7 @@ def draw_display():
             drawred.rectangle((134, 89, 199, 155), fill = 0)
 
         # right area
-        try:
+        #try:
             current_price = awattar.get_current_price()
             if current_price is not None:
                 drawblack.text((232, 15), f"{str(round(current_price, 1))}", font = fontbold24, align='center', fill = 0, anchor="mm")
@@ -255,8 +255,8 @@ def draw_display():
                 drawblack.text((232, 130), f"Geschirr", font = font16, align='center', fill = 0, anchor="mm")
                 drawblack.text((232, 146), f"{GS_start_time.strftime('%H')} Uhr", font = font18, align='center', fill = 0, anchor="mm")
 
-        except:
-            print("Error when drawing awattar prices")
+        #except:
+        #    print("Error when drawing awattar prices")
 
         # bottom line
         drawblack.text((42, 166), "05:58", font = fontbold16, align='center', fill = 0, anchor="mm")
