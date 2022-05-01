@@ -283,7 +283,7 @@ def draw_display():
             print("Error when drawing awattar prices")
 
         # bottom line
-        drawblack.text((42, 166), f"{timer.calculate_open_time()}", font = fontbold16, align='center', fill = 0, anchor="mm")
+        drawblack.text((42, 166), f"{timer.calculate_open_time().strftime('%H:%M')}", font = fontbold16, align='center', fill = 0, anchor="mm")
         drawblack.text((100, 166), time.strftime('%H:%M'), font = fontbold16, align='center', fill = 0, anchor="mm")
         drawblack.text((176, 166), f"{timer.calculate_close_time().strftime('%H:%M')}", font = fontbold16, align='center', fill = 0, anchor="mm")
 
