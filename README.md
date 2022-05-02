@@ -29,7 +29,7 @@ This will render the display and listen to MQTT
 it uses awattar.py and timer.py
 
 **awattar.py**
-ready the current and future prices for electricity
+load the current and future prices for electricity from Awattar
 
 **timer.py**
 calculate sunrise and sunset to open or close the blinds.
