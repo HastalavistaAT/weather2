@@ -6,13 +6,16 @@ Weather Station 2.0
 Raspberry Pi 2/3/4
 Waveshare e-paper HAT 2.7inch (3-color: white, black, red)
 DVB-T Receiver to listen to 433 MHz sensors
+TFA Dostmann Ersatzsender mit Display https://www.amazon.de/gp/product/B011IMRIZS/ref=ppx_yo_dt_b_asin_title_o01_s00?ie=UTF8&psc=1
 
 **mqtt**
+
 Mosquitto
 Channel: home/rtl_433
 Used to listen to sensors and update the status of the blinds
 
 **DVB-T Receiver**
+
 RTL_433 for DVB-T receiver
 
 Start with:
@@ -24,14 +27,17 @@ Supervisor
 https://www.hagensieker.com/wordpress/2019/03/06/how-to-keep-rtl_433-alive-for-your-home-automation-using-supervisor/
 
 **wather2.py**
+
 main application to run
 This will render the display and listen to MQTT
 it uses awattar.py and timer.py
 
 **awattar.py**
+
 load the current and future prices for electricity from Awattar
 
 **timer.py**
+
 calculate sunrise and sunset to open or close the blinds.
 Calculation for Leonding/Austria
 Adapt Lon/Lat accordingly
